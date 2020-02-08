@@ -1,6 +1,25 @@
 const express = require("express");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
+const winston = require('winston');
+const logLevel = process.env.LOG_LEVEL || 'debug';
+
+const logger = winston.createLogger({
+  transports: [
+      new winston.transports.Console(),
+      new winston.transports.File({
+        filename: "./logs/errors.log",
+        level: 'errors'
+      }),
+  ],
+  level: logLevel,
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  )
+});
+
+global.logger = logger;
 
 const app = express();
 const port = 3001;
@@ -17,7 +36,8 @@ db.connect(err => {
   if (err) {
     throw err;
   }
-  console.log("Connected to database");
+
+  logger.info("Connected to database!");
 });
 
 global.db = db;
@@ -31,5 +51,5 @@ app.use("/", router);
 
 // set app to listen
 app.listen(port, () =>
-  console.log(`XR Projects API listening on port ${port}!`)
+  logger.info(`XR Projects API listening on port ${port}!`)
 );

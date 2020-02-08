@@ -1,12 +1,14 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
+
+const logger = global.logger;
 
 // routers
 const groups = require("./groups/groups.router");
 
 // middleware
 router.use(function timeLog(req, res, next) {
-  console.log("Time: ", Date.now());
+  logger.info(`${req.method}: ${req.path}`);
   next();
 });
 
