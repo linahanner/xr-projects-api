@@ -1,16 +1,17 @@
 const express = require("express");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
-const winston = require('winston');
-const logLevel = process.env.LOG_LEVEL || 'debug';
+const winston = require("winston");
+const config = require("./config.json");
+const logLevel = process.env.LOG_LEVEL || config.logging.level;
 
 const logger = winston.createLogger({
   transports: [
-      new winston.transports.Console(),
-      new winston.transports.File({
-        filename: "./logs/errors.log",
-        level: 'errors'
-      }),
+    new winston.transports.Console(),
+    new winston.transports.File({
+      filename: config.logging.error_output_file,
+      level: "errors"
+    })
   ],
   level: logLevel,
   format: winston.format.combine(
@@ -26,9 +27,9 @@ const port = 3001;
 
 // create database connection
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  database: "xrprojectsdb"
+  host: config.mysql.host,
+  user: config.mysql.user,
+  database: config.mysql.database
 });
 
 // connect to database

@@ -1,0 +1,11 @@
+{
+  "mysql": {
+    "host": "localhost",
+    "user": "root",
+    "database": "xrprojectsdb"
+  },
+  "logging": {
+    "level": "debug",
+    "error_output_file": "./logs/errors.log"
+  }
+}
