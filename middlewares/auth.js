@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
+const config = require('../config.json');
 const logger = global.logger;
 
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, "secret", { ignoreExpiration: true});
+    const decodedToken = jwt.verify(token, config.auth.secret, { ignoreExpiration: true});
 
     if (Date.now() >= decodedToken.exp * 1000) {
       logger.info("Token has expired");
