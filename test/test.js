@@ -1,7 +1,7 @@
 const expect = require("chai").expect;
 const sinon = require("sinon");
 
-const validate = require("../middlewares/validate");
+const validate = require("../middlewares/validate.middleware");
 
 describe("validate", () => {
   var next, send, status, res;

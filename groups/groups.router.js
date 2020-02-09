@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const logger = global.logger;
 
-const validate = require("../middlewares/validate");
+const validate = require("../middlewares/validate.middleware");
 const data = require("./groups.data");
 
 // Get all groups
