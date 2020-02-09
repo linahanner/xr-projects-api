@@ -4,7 +4,10 @@
 
 /*** Helpers ***/
 
-const isValidId = id => !Number.isNaN(Number(id));
+const isValidId = id => {
+  const n = Number(id);
+  return !Number.isNaN(n) && n > 0;
+};
 const isString = x => typeof x === "string";
 const isNonEmptyString = x => isString(x) && x.length > 0;
 
@@ -22,10 +25,11 @@ const id = (req, res, next) => {
 
 /* Validates req.body */
 const groupBody = ({ body }, res, next) => {
+  const validKeys = ["name", "description"];
   if (
-    isNonEmptyString(body.name) &&
-    isString(body.description) &&
-    Object.keys(body).length === 2 // 'body' contains only 'name' and 'description'
+    isNonEmptyString(body.name) && // 'name' exists
+    (body.description == undefined || isString(body.description)) && // 'description' is string if it exists
+    Object.keys(body).every(key => validKeys.includes(key)) // 'body' contains only 'name' and 'description'
   ) {
     next();
   } else {
