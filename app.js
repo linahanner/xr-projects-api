@@ -43,7 +43,11 @@ db.connect(err => {
 
 global.db = db;
 
+// Require middleware
+const logMiddleware = require('./middlewares/log.middleware');
+
 // parse application/json
+app.use(logMiddleware);
 app.use(bodyParser.json());
 
 // set app routers
